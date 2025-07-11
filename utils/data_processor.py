@@ -10,7 +10,7 @@ class DataProcessor:
         self.stock_data = None
         self.processed_data = None
 
-    def load_macro_data(self, file_path=r"final-cs661\datasets\data\Daily_macro_interpolate_data.csv"):
+    def load_macro_data(self, file_path=r"final-cs661\utils\data\Daily_macro_interpolate_data.csv"):
         """
         Load and preprocess macro economic data (daily frequency recommended)
         """
@@ -139,7 +139,7 @@ class DataProcessor:
         print(f"Merged data shape: {self.processed_data.shape}")
         return True
 
-    def process_data(self, stock_data, macro_file_path=r"C:\Users\astit\OneDrive\Desktop\CS661\Project\FInal_dashboard\final-cs661\datasets\data\Daily_macro_interpolate_data.csv"):
+    def process_data(self, stock_data, macro_file_path=r"final-cs661\utils\data\Daily_macro_interpolate_data.csv"):
         """
         Complete data processing pipeline
         """

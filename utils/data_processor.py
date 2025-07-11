@@ -23,6 +23,10 @@ class DataProcessor:
         """
         Load and preprocess macro economic data (daily frequency recommended)
         """
+        # Debug: Print the path being used
+        print(f"Loading macro data from: {file_path}")
+        print(f"File exists: {file_path.exists()}")
+        
         try:
             macro_df = pd.read_csv(file_path, index_col=0)
             macro_df = macro_df.reset_index()
@@ -37,6 +41,29 @@ class DataProcessor:
             return True
         except Exception as e:
             print(f"Error loading macro data: {e}")
+            # Fallback: try to find the file in common locations
+            possible_paths = [
+                Path.cwd() / "datasets" / "data" / "Daily_macro_interpolate_data.csv",
+                Path.cwd() / "final-cs661" / "datasets" / "data" / "Daily_macro_interpolate_data.csv",
+                Path(__file__).parent.parent.parent / "datasets" / "data" / "Daily_macro_interpolate_data.csv"
+            ]
+            for path in possible_paths:
+                if path.exists():
+                    print(f"Found macro file at fallback location: {path}")
+                    try:
+                        macro_df = pd.read_csv(path, index_col=0)
+                        macro_df = macro_df.reset_index()
+                        macro_df.rename(columns={str(macro_df.columns[0]): 'Date'}, inplace=True)
+                        try:
+                            macro_df['Date'] = pd.to_datetime(macro_df['Date'], format='%d-%m-%Y')
+                        except Exception:
+                            macro_df['Date'] = pd.to_datetime(macro_df['Date'])
+                        self.macro_data = macro_df
+                        print(f"Loaded macro data with shape: {self.macro_data.shape}")
+                        return True
+                    except Exception as fallback_e:
+                        print(f"Fallback also failed: {fallback_e}")
+                        continue
             return False
 
     def load_stock_data(self, stock_data):

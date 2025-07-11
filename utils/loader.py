@@ -39,10 +39,32 @@ def load_synthetic_data():
     # Get the directory where this script is located
     current_dir = Path(__file__).parent.parent
     file_path = current_dir / "datasets" / "data" / "stock_data.csv"
-    df = pd.read_csv(file_path)
-    start_date = pd.Timestamp.today() - pd.Timedelta(days=len(df) - 1)
-    df['Date'] = pd.date_range(start=start_date, periods=len(df), freq='D')
-    return df
+    
+    # Debug: Print the path being used
+    print(f"Loading synthetic data from: {file_path}")
+    print(f"File exists: {file_path.exists()}")
+    
+    try:
+        df = pd.read_csv(file_path)
+        start_date = pd.Timestamp.today() - pd.Timedelta(days=len(df) - 1)
+        df['Date'] = pd.date_range(start=start_date, periods=len(df), freq='D')
+        return df
+    except Exception as e:
+        print(f"Error loading synthetic data: {e}")
+        # Fallback: try to find the file in common locations
+        possible_paths = [
+            Path.cwd() / "datasets" / "data" / "stock_data.csv",
+            Path.cwd() / "final-cs661" / "datasets" / "data" / "stock_data.csv",
+            Path(__file__).parent.parent.parent / "datasets" / "data" / "stock_data.csv"
+        ]
+        for path in possible_paths:
+            if path.exists():
+                print(f"Found file at fallback location: {path}")
+                df = pd.read_csv(path)
+                start_date = pd.Timestamp.today() - pd.Timedelta(days=len(df) - 1)
+                df['Date'] = pd.date_range(start=start_date, periods=len(df), freq='D')
+                return df
+        raise FileNotFoundError(f"Could not find stock_data.csv in any expected location")
 
 def load_processed_data(company_symbol=None, enable_preprocessing=True):
     """

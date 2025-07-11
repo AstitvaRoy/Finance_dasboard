@@ -19,7 +19,7 @@ st.set_page_config(
 )
 
 # ----------------- BACKGROUND IMAGE AS BASE64 -----------------
-img_path = r"C:\Users\astit\OneDrive\Desktop\CS661\Project\FInal_dashboard\final-cs661\assets\background.jpg"
+img_path = r"final-cs661\assets\background.jpg"
 with open(img_path, "rb") as f:
     img_data = base64.b64encode(f.read()).decode()
 

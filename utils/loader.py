@@ -34,7 +34,7 @@ def load_synthetic_data():
     """
     Load the original synthetic stock data
     """
-    df = pd.read_csv('./datasets/data/stock_data.csv')
+    df = pd.read_csv('final-cs661\utils\data\stock_data.csv')
     start_date = pd.Timestamp.today() - pd.Timedelta(days=len(df) - 1)
     df['Date'] = pd.date_range(start=start_date, periods=len(df), freq='D')
     return df

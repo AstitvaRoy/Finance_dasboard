@@ -10,7 +10,7 @@ class DataProcessor:
         self.stock_data = None
         self.processed_data = None
 
-    def load_macro_data(self, file_path=r"final-cs661\utils\data\Daily_macro_interpolate_data.csv"):
+    def load_macro_data(self, file_path=r"./datasets/data/Daily_macro_interpolate_data.csv"):
         """
         Load and preprocess macro economic data (daily frequency recommended)
         """
@@ -139,7 +139,7 @@ class DataProcessor:
         print(f"Merged data shape: {self.processed_data.shape}")
         return True
 
-    def process_data(self, stock_data, macro_file_path=r"final-cs661\utils\data\Daily_macro_interpolate_data.csv"):
+    def process_data(self, stock_data, macro_file_path=r"./datasets/data/Daily_macro_interpolate_data.csv"):
         """
         Complete data processing pipeline
         """
@@ -152,11 +152,13 @@ class DataProcessor:
         # Clean data
         if not self.clean_stock_data():
             return None
-        print("Columns after clean_stock_data:", self.stock_data.columns.tolist())
+        if self.stock_data is not None:
+            print("Columns after clean_stock_data:", self.stock_data.columns.tolist())
         # Merge macro data
         if not self.merge_macro_data():
             return None
-        print("Columns after merge_macro_data:", self.processed_data.columns.tolist())
+        if self.processed_data is not None:
+            print("Columns after merge_macro_data:", self.processed_data.columns.tolist())
 
         return self.processed_data
 

@@ -3,6 +3,8 @@ import streamlit as st
 import streamlit_shadcn_ui as ui
 import pandas as pd
 from datetime import timedelta
+import os
+from pathlib import Path
 from .company_selector import load_company_data, get_available_companies
 from .data_processor import DataProcessor
 from .charts import (
@@ -34,7 +36,10 @@ def load_synthetic_data():
     """
     Load the original synthetic stock data
     """
-    df = pd.read_csv('./datasets/data/stock_data.csv')
+    # Get the directory where this script is located
+    current_dir = Path(__file__).parent.parent
+    file_path = current_dir / "datasets" / "data" / "stock_data.csv"
+    df = pd.read_csv(file_path)
     start_date = pd.Timestamp.today() - pd.Timedelta(days=len(df) - 1)
     df['Date'] = pd.date_range(start=start_date, periods=len(df), freq='D')
     return df

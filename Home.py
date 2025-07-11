@@ -19,7 +19,12 @@ st.set_page_config(
 )
 
 # ----------------- BACKGROUND IMAGE AS BASE64 -----------------
-img_path = r"assets/background.jpg"
+import os
+from pathlib import Path
+
+# Get the directory where this script is located
+current_dir = Path(__file__).parent
+img_path = current_dir / "assets" / "background.jpg"
 with open(img_path, "rb") as f:
     img_data = base64.b64encode(f.read()).decode()
 

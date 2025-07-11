@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import warnings
+import os
+from pathlib import Path
 warnings.filterwarnings('ignore')
 
 class DataProcessor:
@@ -10,7 +12,14 @@ class DataProcessor:
         self.stock_data = None
         self.processed_data = None
 
-    def load_macro_data(self, file_path=r"./datasets/data/Daily_macro_interpolate_data.csv"):
+    def load_macro_data(self, file_path=None):
+        """
+        Load and preprocess macro economic data (daily frequency recommended)
+        """
+        if file_path is None:
+            # Get the directory where this script is located
+            current_dir = Path(__file__).parent.parent
+            file_path = current_dir / "datasets" / "data" / "Daily_macro_interpolate_data.csv"
         """
         Load and preprocess macro economic data (daily frequency recommended)
         """
@@ -139,7 +148,7 @@ class DataProcessor:
         print(f"Merged data shape: {self.processed_data.shape}")
         return True
 
-    def process_data(self, stock_data, macro_file_path=r"./datasets/data/Daily_macro_interpolate_data.csv"):
+    def process_data(self, stock_data, macro_file_path=None):
         """
         Complete data processing pipeline
         """

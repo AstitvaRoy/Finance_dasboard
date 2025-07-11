@@ -7,7 +7,9 @@ def get_available_companies():
     Scan the processed folder and return a list of available companies
     Returns a list of tuples: (company_symbol, company_name)
     """
-    processed_dir = Path('./datasets/data/processed')
+    # Get the directory where this script is located
+    current_dir = Path(__file__).parent.parent
+    processed_dir = current_dir / "datasets" / "data" / "processed"
     
     if not processed_dir.exists():
         return []
@@ -29,7 +31,9 @@ def load_company_data(company_symbol):
     Returns:
         pandas.DataFrame: The company's stock data
     """
-    file_path = f'./datasets/data/processed/{company_symbol}.csv'
+    # Get the directory where this script is located
+    current_dir = Path(__file__).parent.parent
+    file_path = current_dir / "datasets" / "data" / "processed" / f"{company_symbol}.csv"
     
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Data file for {company_symbol} not found")
